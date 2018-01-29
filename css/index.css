@@ -2,9 +2,12 @@
     width: 100%;
 }
 .userlist {
-   overflow-y: scroll;
     height: 800px;
     border: 1px solid dimgray;
+    overflow-y: auto;
+}
+.mainDiv{
+    margin-top:15px;
 }
 .info {
     font-size: 12px;
@@ -48,8 +51,8 @@
 
 .panel-body
 {
-    overflow-y: scroll;
-    height: 700px;
+    overflow-y: auto;
+    height: 600px;
 }
 
 ::-webkit-scrollbar-track
