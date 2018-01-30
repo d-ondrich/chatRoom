@@ -4,14 +4,16 @@ const server = require('http').Server(app);
 const port = 3000; 
 const io = require('socket.io')(server);
 
+
 //namespace for chatbot functions and variables
 let forterBot = {};
 forterBot.questionFlag = false;
 forterBot.question = "";
 forterBot.answer = "";
 forterBot.questions = {
-	"capital of Israel":"Jerusalem",
-	"president of The United States":"Trump"
+	"capital of Israel":"Humans are so forgetful, Jerusalem",
+    "president of The United States":"That would be Trump",
+    "are you sentient":"next question please...."
 }
 
 //namespace for blockchain usage
@@ -43,7 +45,6 @@ io.on('connection', function (socket) {
     socket.on('chat.message', function (message) {
         blockchainSpace.blockCount++;
         //broadcasts that message
-        console.log(message)
         io.emit('chat.message', message);
         
         //Adds message to new block on blockchain and returns hash to send to client
@@ -59,7 +60,6 @@ io.on('connection', function (socket) {
 
         //Handling messages depending on whether bot should respond, or just save question:answer pairs
 		if (message.text.includes("@forterBot")){
-			console.log("should call bot function")
 			forterBot.readMessage(message);
 		} else if (message.text.endsWith("?") || forterBot.questionFlag){
 			forterBot.saveQuestions(message);
@@ -78,11 +78,13 @@ forterBot.readMessage = function(message){
 	if (message.text.endsWith("?")){
 		for (let key in forterBot.questions){
 			if (message.text.includes(key)){
-				message.text = "Humans are so forgetful... '"+ forterBot.questions[key] + "'";
+				message.text = forterBot.questions[key];
 				break;
 			}
 		}
-	}
+	}else if (message.text.includes("print blockchain")){
+        message.text = JSON.stringify(messageChain, null, 4);
+    }
 	io.emit('chat.message', message);
 };
 

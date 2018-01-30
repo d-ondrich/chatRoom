@@ -13,6 +13,7 @@ var oldName;
                 "index":"",
                 "type": "",
                 "user": "",
+                "socketID":socket.id,
                 "text": "",
                 "timestamp": ""
             },
@@ -24,17 +25,16 @@ var oldName;
             })
             //updates connectedUsers array
             socket.on('user joined', function (socketId) {
-
                 // get already connected users first
                 axios.get('/onlineusers')
-                    .then(function (response) {
-                        for(var key in response.data) {
-                            if(this.connectedUsers.indexOf(key) <= -1) {
-                                this.connectedUsers.push(key);
-                            }
+                .then(function (response) {
+                    for(var key in response.data) {
+                        if(this.connectedUsers.indexOf(key) <= -1) {
+                            this.connectedUsers.push(key);
                         }
-                        console.log(this.connectedUsers);
-                    }.bind(this));
+                    }
+                    console.log(this.connectedUsers);
+                }.bind(this));
                 var infoMsg = {
                     "type": "info",
                     "msg": "User " + socketId + " has joined"
@@ -45,6 +45,12 @@ var oldName;
             // updates messages array
             socket.on('chat.message', function (message) {
                 this.messages.push(message);
+                if (message.socketID !== message.user){
+                    let index = this.connectedUsers.indexOf(message.socketID)
+                    if (index !== -1){
+                        this.connectedUsers[index] = message.user
+                    }
+                }
             }.bind(this));
 
             //updates user aray for nickname
@@ -80,6 +86,7 @@ var oldName;
                     this.message.user = socket.id;
                 }
                 this.message.timestamp = moment().calendar();
+                this.message.socketID;
                 socket.emit('chat.message', this.message);
                 this.message.type = '';
                 this.message.user = '';
@@ -88,7 +95,6 @@ var oldName;
             },
             //updates name from socket id
             setName: function(){
-                oldName = id;
                 let index = this.connectedUsers.indexOf(socket.id);
                 let indexName = this.connectedUsers.indexOf(oldName);//Allows for switching of name
                 if (index !== -1) {
