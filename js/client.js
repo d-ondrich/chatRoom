@@ -44,13 +44,15 @@ var oldName;
 
             // updates messages array
             socket.on('chat.message', function (message) {
-                this.messages.push(message);
+                
+                console.log("socket id" + message.socketID);
                 if (message.socketID !== message.user){
                     let index = this.connectedUsers.indexOf(message.socketID)
                     if (index !== -1){
                         this.connectedUsers[index] = message.user
                     }
                 }
+                this.messages.push(message);
             }.bind(this));
 
             //updates user aray for nickname
@@ -103,6 +105,11 @@ var oldName;
                     this.connectedUsers[indexName] = this.name;
                 }
                 id = this.name;
+            },
+            //scrolls to bottom of message window
+            scrollToBottom: function(){
+                var chatArea = this.$el.querySelector("#chatArea");
+                chatArea.scrollTop = chatArea.scrollHeight;
             }
         }
     });

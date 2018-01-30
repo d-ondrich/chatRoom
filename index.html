@@ -39,7 +39,7 @@
                                 <span v-if="!blockchainStatus[blockchainStatus.length-1]" class="glyphicon glyphicon-remove" style="color:red;"></span>
                                 &nbsp&nbspLast Hash: {{ blocks[(blocks.length -1)] }}
                             </div>
-                            <div class="panel-body">
+                            <div id="chatArea" class="panel-body">
                                 <ul class="chat" id="messages">
                                     <li v-for="message in messages" class="left clearfix">
                                         <div v-if="message.type == 'info'" class="info">
@@ -65,7 +65,7 @@
 
                             <div class="panel-footer">
                                 <form @submit.prevent="send">
-                                    <input v-model="message.text" type="text" class="form-control input-lg" placeholder="Enter text..." />
+                                    <input v-model="message.text" v-on:keyup.enter="scrollToBottom()" type="text" class="form-control input-lg" placeholder="Enter text..." />
                                 </form>
 
                             </div>
@@ -74,7 +74,6 @@
                         </div>
                     </div>
                 </div>
-            <!-- </div> -->
         </div>
     </div>
     
