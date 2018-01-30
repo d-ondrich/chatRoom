@@ -40,7 +40,7 @@
                                 &nbsp&nbspLast Hash: {{ blocks[(blocks.length -1)] }}
                             </div>
                             <div id="chatArea" class="panel-body">
-                                <ul class="chat" id="messages">
+                                <ul class="chat" id="messages" v-on:change="scrollToBottom()">
                                     <li v-for="message in messages" class="left clearfix">
                                         <div v-if="message.type == 'info'" class="info">
                                             {{ message.msg }}

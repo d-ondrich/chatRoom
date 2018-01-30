@@ -53,11 +53,10 @@ var oldName;
                     }
                 }
                 this.messages.push(message);
-            }.bind(this));
-
-            //updates user aray for nickname
-            socket.on('nickname', function (connectedUsers) {
-                this.connectedUsers = connectedUsers;
+                this.$nextTick(() => { //calls scroll to bottom function
+                    this.scrollToBottom()
+                  })
+                console.log("scroll");
             }.bind(this));
 
             // updates blockchain visual hash and integrity
