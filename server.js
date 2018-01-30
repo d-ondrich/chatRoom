@@ -59,10 +59,11 @@ io.on('connection', function (socket) {
         io.emit('block', blockObj);
 
         //Handling messages depending on whether bot should respond, or just save question:answer pairs
-		if (message.text.includes("@forterBot")){
-			forterBot.readMessage(message);
-		} else if (message.text.endsWith("?") || forterBot.questionFlag){
-			forterBot.saveQuestions(message);
+        let botText = message.text.toLowerCase();
+		if (botText.includes("@forterbot")){
+			forterBot.readMessage(botText, message);
+		} else if (botText.endsWith("?") || forterBot.questionFlag){
+			forterBot.saveQuestions(botText, message);
 		}
     });
 
@@ -73,27 +74,27 @@ io.on('connection', function (socket) {
     });
 });
 
-forterBot.readMessage = function(message){
+forterBot.readMessage = function(botText, message){
     message.user = "ForterBot";
-	if (message.text.endsWith("?")){
+	if (botText.endsWith("?")){
 		for (let key in forterBot.questions){
-			if (message.text.includes(key)){
+			if (botText.includes(key)){
 				message.text = forterBot.questions[key];
 				break;
 			}
 		}
-	}else if (message.text.includes("print blockchain")){
+	}else if (botText.includes("print blockchain")){
         message.text = JSON.stringify(messageChain, null, 4);
     }
 	io.emit('chat.message', message);
 };
 
-forterBot.saveQuestions = function(message){
+forterBot.saveQuestions = function(botText, message){
 	if (!forterBot.questionFlag){
-		forterBot.question = message.text;
+		forterBot.question = botText;
 		forterBot.questionFlag = true;
 	}else{
-		forterBot.answer = message.user + ": " + message.text
+		forterBot.answer = message.user + ": " + botText
 		forterBot.questions[forterBot.question] = forterBot.answer;
 		forterBot.questionFlag = false;
 	}
