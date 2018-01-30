@@ -13,7 +13,7 @@ var oldName;
                 "index":"",
                 "type": "",
                 "user": "",
-                "socketID":socket.id,
+                "socketID":"",
                 "text": "",
                 "timestamp": ""
             },
@@ -44,19 +44,16 @@ var oldName;
 
             // updates messages array
             socket.on('chat.message', function (message) {
-                
-                console.log("socket id" + message.socketID);
                 if (message.socketID !== message.user){
                     let index = this.connectedUsers.indexOf(message.socketID)
                     if (index !== -1){
-                        this.connectedUsers[index] = message.user
+                        this.connectedUsers[index] = message.user;
                     }
                 }
                 this.messages.push(message);
                 this.$nextTick(() => { //calls scroll to bottom function
                     this.scrollToBottom()
                   })
-                console.log("scroll");
             }.bind(this));
 
             // updates blockchain visual hash and integrity
@@ -87,7 +84,7 @@ var oldName;
                     this.message.user = socket.id;
                 }
                 this.message.timestamp = moment().calendar();
-                this.message.socketID;
+                this.message.socketID = socket.id;
                 socket.emit('chat.message', this.message);
                 this.message.type = '';
                 this.message.user = '';
@@ -97,13 +94,11 @@ var oldName;
             //updates name from socket id
             setName: function(){
                 let index = this.connectedUsers.indexOf(socket.id);
-                let indexName = this.connectedUsers.indexOf(oldName);//Allows for switching of name
                 if (index !== -1) {
                     this.connectedUsers[index] = this.name;
-                }else if (indexName !== -1){
-                    this.connectedUsers[indexName] = this.name;
                 }
                 id = this.name;
+
             },
             //scrolls to bottom of message window
             scrollToBottom: function(){
