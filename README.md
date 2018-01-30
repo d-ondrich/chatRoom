@@ -14,8 +14,8 @@ Try asking '@forterBot what's the capital of Israel?', or '@forterBot who's the 
 The interesting thing about this particular chatroom is that chat history is immutable and secured on the blockchain. 
 In this age of the trustless internet, chat-users need a way to know the messages they see haven't been tampered with.
 
-This chatroom enters the details of each message into a simple, yet secure, proof-of-work blockchain (no promises it can withstand
-a 51% attack).
+This chatroom enters the details of each message into a simple, yet secure, proof-of-work blockchain using the SHA-256 hashing alogrithm (no promises it can withstand a 51% attack).
+
 The integrity of the blockchain can be seen at the top of the chat window, along with the lastest block hash.
 And, if you ever wish to see the 'ledger' just ask! -- "@forterbot print blockchain'
 
