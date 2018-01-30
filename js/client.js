@@ -98,7 +98,7 @@ var oldName;
                     this.connectedUsers[index] = this.name;
                 }
                 id = this.name;
-
+                disableInput(false);//prevents changing name
             },
             //scrolls to bottom of message window
             scrollToBottom: function(){
