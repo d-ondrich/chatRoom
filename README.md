@@ -1,6 +1,6 @@
 # chatroom built using VueJS + socket.io on a node server. Secured on the blockchain!
 
-This chatroom allows for realtime chatting with chatroom users. The chatroom comes with a native user '@forterBot'. 
+This chatroom allows for realtime chatting with chatroom users. You can enter a name for yourself or remain anonymous. The chatroom also comes with a native user '@forterBot'. 
 
 @forterBot is a naive bot, however he loves to learn! He will remember the answer to questions asked by other users, and will
 recall for you that answer by asking: '@forterBot <question>?'
