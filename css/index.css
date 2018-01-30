@@ -2,7 +2,7 @@
     width: 100%;
 }
 .userlist {
-    height: 600px;
+    height: 650px;
     width: 20%;
     overflow-y: auto;
     color: #007cbf;
@@ -11,7 +11,7 @@
 .wrapper{
     border: 1px solid #007cbf;
     border-radius: 4px;
-    height: 85%;
+    height: 75%;
 }
 .mainDiv{
     margin-top:15px;
@@ -44,26 +44,23 @@
     
 }
 
-.chat li.left .chat-body
-{
+.chat li.left .chat-body{
     margin-left: 60px;
 }
 
-.chat li.right .chat-body
-{
+.chat li.right .chat-body{
     margin-right: 60px;
 }
 
 
-.chat li .chat-body p
-{
+.chat li .chat-body p{
     margin: 0;
     color: #777777;
 }
 
 .panel-body{
     overflow-y: auto;
-    height: 600px;
+    height: 575px;
 }
 .panel-heading{
     border-bottom: 1px solid #007cbf;

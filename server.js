@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const port = 3000; //process.env.PORT || 
+const port = 3000; 
 const io = require('socket.io')(server);
 
-//namespace for chat bot functions and variables
+//namespace for chatbot functions and variables
 let forterBot = {};
 forterBot.questionFlag = false;
 forterBot.question = "";
@@ -19,7 +19,6 @@ let blockchainSpace = {};
 blockchainSpace.blockCount = 0; 
 
 
-
 server.listen(port, function () {
     console.log("Listening on *:" + port);
 });
@@ -31,27 +30,25 @@ app.get('/', function(request,response) {
 });
 
 app.get('/onlineusers', function(request,response) {
-    //console.log(io.sockets.adapter.rooms);
     response.send(io.sockets.adapter.rooms);
 });
 
 io.on('connection', function (socket) {
     console.log('A user connected:' + socket.id);
 
-    //Tell all clients that someone connected
+    //alerts new conneciton
     io.emit('user joined', socket.id)
 
-    // The client sends 'chat.message' event to server
+    // receives message from client
     socket.on('chat.message', function (message) {
         blockchainSpace.blockCount++;
-        //Emit this event to all clients connected to it
+        //broadcasts that message
         console.log(message)
         io.emit('chat.message', message);
         
         //Adds message to new block on blockchain and returns hash to send to client
         messageChain.addNewBlock(new Block(blockchainSpace.blockCount, message));
         let newBlock = messageChain["chain"][blockchainSpace.blockCount].hash;
-        console.log("printing new block"+ newBlock);
         //checks chain integrity
         let isValid = messageChain.isChainValid();
         let blockObj = {
@@ -65,22 +62,19 @@ io.on('connection', function (socket) {
 			console.log("should call bot function")
 			forterBot.readMessage(message);
 		} else if (message.text.endsWith("?") || forterBot.questionFlag){
-			console.log("should call question save function")
 			forterBot.saveQuestions(message);
 		}
     });
 
     socket.on('disconnect', function () {
         console.log('User left: ' + socket.id);
-
-        //Tell all clients that someone disconnected
+        //tell users that someone disconnected
         socket.broadcast.emit('user left', socket.id);
     });
 });
 
 forterBot.readMessage = function(message){
     message.user = "ForterBot";
-    console.log(message.text);
 	if (message.text.endsWith("?")){
 		for (let key in forterBot.questions){
 			if (message.text.includes(key)){
@@ -90,11 +84,9 @@ forterBot.readMessage = function(message){
 		}
 	}
 	io.emit('chat.message', message);
-	console.log("In bot function");
 };
 
 forterBot.saveQuestions = function(message){
-	console.log("IN question save function")
 	if (!forterBot.questionFlag){
 		forterBot.question = message.text;
 		forterBot.questionFlag = true;
@@ -105,7 +97,7 @@ forterBot.saveQuestions = function(message){
 	}
 }
 
-//Message Blockchain below:
+//Blockchain below:
 const SHA256 = require('crypto-js/sha256');
 
 class Block { 
@@ -126,7 +118,6 @@ class Block {
             this.nonce++;
             this.hash = this.calculateHash();
         }
-        console.log("Block mined: " + this.hash);
     }
 }
 
