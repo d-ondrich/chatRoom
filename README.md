@@ -22,7 +22,8 @@ And, if you ever wish to see the 'ledger' just ask! -- "@forterbot print blockch
 To get the chatroom up and running: 
         -clone the repository, 
         -navigate to the root folder, 
-        -and enter 'node server.js' on you command line.
+        -npm install
+        -npm start
         
 Chatroom will run on port 3000.
 
